@@ -1,51 +1,52 @@
 class Solution {
 public:
-    int findnum(vector<int>nums1,vector<int>nums2,int size){
-        int st=-1000001;
-        int en=1000001;
-        
-        int ans=INT_MAX;
-        while(st<=en){
-            int mid = (st+en)/2;
-            int count=0;
-            int ind=upper_bound(nums1.begin(),nums1.end(),mid)-nums1.begin();
-            count+=ind;
-            int ind2=upper_bound(nums2.begin(),nums2.end(),mid)-nums2.begin();
-            count+=ind2;
-            
-            if(count<size){
-                st=mid+1;
-            }
-            
-            else{
-                ans=min(ans,mid);
-                en=mid-1;
-            }
-            
-        }
-        return ans;
-        
-    }
-    
-    
-    
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
         
-        double ans=0;
-        int size=nums1.size()+nums2.size();
+        int n1 = nums1.size();
+        int n2 = nums2.size();
         
-        if(size%2!=0){
-            ans=findnum(nums1,nums2,size/2+1);
-            return ans;
+        if(n1>n2){
+            return findMedianSortedArrays(nums2,nums1);
         }
-        else{
-            double first=findnum(nums1,nums2,size/2);
-            double second=findnum(nums1,nums2,size/2+1);
-            cout<<first<<" "<<second<<" ";
-            double b=(first+second)/2;
-            return b;
+        
+        int low=0;
+        int high= n1;
+        
+        while(low<=high){
+            int cut1= (low+high)/2;
+            int cut2=(n1+n2+1)/2 - cut1;
+            
+            int l1=cut1==0? INT_MIN:nums1[cut1-1];
+            int l2= cut2==0? INT_MIN:nums2[cut2-1];
+            
+            int r1=cut1==n1?INT_MAX:nums1[cut1];
+            int r2=cut2==n2?INT_MAX:nums2[cut2];
+            
+            
+            
+            if(l1<=r2 && l2<=r1){
+                
+                if((n1+n2)%2==0){
+                    int l=max(l1,l2);
+                    int r=min(r1,r2);
+                    
+                    return (l+r)/2.0;
+                }
+                else{
+                    return max(l1,l2);
+                }
+            }
+            else{
+                if(l1>r2){
+                    high = cut1-1;
+                }
+                else{
+                    low = cut1+1;
+                }
+            }
+            
         }
-        return ans;
+        return 0.0;
         
     }
 };
