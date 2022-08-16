@@ -10,6 +10,10 @@
  */
 class Solution {
 public:
+    Solution(){
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+    }
     int pairSum(ListNode* head) {
         vector<int>nums;
         ListNode* temp=head;
