@@ -1,8 +1,7 @@
 class Solution {
 public:
     bool validUtf8(vector<int>& data) {
-        int count = 0;
-        
+        int count=0;
         for(auto x:data){
             if(count==0){
                 if(x>>5==0b110){
@@ -23,7 +22,6 @@ public:
                     return false;
                 }
                 count--;
-                
             }
         }
         if(count==0){
